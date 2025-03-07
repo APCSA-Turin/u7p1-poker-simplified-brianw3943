@@ -150,7 +150,7 @@ public class Player{
         }
         ArrayList<Card> playerHand = new ArrayList<>(hand);
 
-        // Find the highest card in the player's hand
+        // Finds the highest card in the player's hand
         String handHighestCard = hand.get(0).getRank();
         int handHighestCardValue = Utility.getRankValue(handHighestCard);
         int secondCardValue = Utility.getRankValue(hand.get(1).getRank());
@@ -184,9 +184,11 @@ public class Player{
 
     public ArrayList<Integer> findRankingFrequency(){
         ArrayList<Integer> frequency = new ArrayList();
+        // Adds all indices with starting value of 0 for each rank
         for (String string : ranks) {
             frequency.add(0);
         }
+        // Sets all rank amounts accordingly
         for (int i = 0; i < allCards.size(); i++) {
             for (int j = 2; j < 15; j++) {
                 if (Utility.getRankValue(allCards.get(i).getRank()) == j) {
@@ -200,9 +202,11 @@ public class Player{
 
     public ArrayList<Integer> findSuitFrequency(){
         ArrayList<Integer> frequency = new ArrayList();
+        // Adds all indices with starting value of 0 for each suit
         for (String string : suits) {
             frequency.add(0);
         }
+        // Sets all suit amounts accordingly
         for (int i = 0; i < allCards.size(); i++) {
             for (int j = 0; j < 4; j++) {
                 if (allCards.get(i).getSuit() == suits[j]) {

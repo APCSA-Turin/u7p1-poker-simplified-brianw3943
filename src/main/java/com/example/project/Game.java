@@ -15,6 +15,7 @@ public class Game{
         } else if (p2Rank > p1Rank) {
             return "Player 2 wins!";
         } else {
+            // Compares highest cards of both players (as a tiebreaker)
             int p1HighestCard = Utility.getRankValue(p1.getHand().get(0).getRank());
             int p2HighestCard = Utility.getRankValue(p2.getHand().get(0).getRank());
             if (p1.getHand().get(0).getRank().compareTo(p1.getHand().get(1).getRank()) < 0) {
