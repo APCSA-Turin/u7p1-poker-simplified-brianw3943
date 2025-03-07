@@ -17,6 +17,81 @@ public class Player{
     public void addCard(Card c){
         hand.add(c);
     }
+    private boolean flush() {
+        ArrayList<Integer> suitFrequency = findSuitFrequency();
+        for (int frequency : suitFrequency) {
+            if (frequency == 5) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean straight() {
+        int consecutive = 1;
+        for (int i = 0; i < allCards.size() - 1; i++) {
+            int curRank = Utility.getRankValue(allCards.get(i).getRank());
+            int nextRank = Utility.getRankValue(allCards.get(i + 1).getRank());
+            if (nextRank == curRank + 1) {
+                consecutive++;
+                if (consecutive == 5) {
+                    return true;
+                }
+            } else if (nextRank != curRank) {
+                consecutive = 1;
+            }
+        }
+        return false;
+    }
+    private boolean pair() {
+        ArrayList<Integer> rankFrequency = findRankingFrequency();
+        for (int frequency : rankFrequency) {
+            if (frequency == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean twoPair() {
+        ArrayList<Integer> rankFrequency = findRankingFrequency();
+        int pairCount = 0;
+        for (int frequency : rankFrequency) {
+            if (frequency == 2) {
+                pairCount++;
+            }
+        }
+        if (pairCount >= 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private boolean threeOfAKind() {
+        ArrayList<Integer> rankFrequency = findRankingFrequency();
+        for (int frequency : rankFrequency) {
+            if (frequency == 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean fullHouse() {
+        if (two)
+    }
+    private boolean fourOfAKind() {
+        ArrayList<Integer> rankFrequency = findRankingFrequency();
+        for (int frequency : rankFrequency) {
+            if (frequency == 4) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean straightFlush() {
+
+    }
+    private boolean royalFlush() {
+
+    }
 
     public String playHand(ArrayList<Card> communityCards){      
         for (int i = 0; i < 3; i++) {
@@ -25,26 +100,23 @@ public class Player{
         for (int i = 0; i < 2; i++) {
             allCards.add(hand.get(i));
         }
-        boolean suits = false;
-        boolean consecutive = false;
-        if (findSuitFrequency().get(0) == 5 || findSuitFrequency().get(1) == 5 || findSuitFrequency().get(2) == 5 || findSuitFrequency().get(3) == 5) {
-            suits = true;
-            if (findRankingFrequency().get(12) == 1 && findRankingFrequency().get(11) == 1 && findRankingFrequency().get(10) == 1 && findRankingFrequency().get(9) == 1 && findRankingFrequency().get(8) == 1) {
-                return "Royal Flush";
-            }
-        }
-        for (int i = 0; i < ranks.length - 4; i++) {
-            for (int j = 1; j < 5; j++) {
-                if (findRankingFrequency().get(i) == 1 && findRankingFrequency().get(i + j) == 1) {
-                   consecutive = true;
-                }
-            }
-        }
+        
+        
         return "Nothing";
     }
 
     public void sortAllCards(){
-        allCards.sort(null);
+        for (int i = 0; i < allCards.size() - 1; i++) {
+            for (int j = 0; j < allCards.size() - i - 1; j++) {
+                int rank = Utility.getRankValue(allCards.get(j).getRank());
+                int rank2 = Utility.getRankValue(allCards.get(j + 1).getRank());
+                if (rank > rank2) {
+                    Card temp = allCards.get(j);
+                    allCards.set(j, allCards.get(j + 1));
+                    allCards.set(j + 1, temp);
+                }
+            }
+        }
     }
 
 

@@ -1,3 +1,6 @@
+package com.example.project;
+import java.util.ArrayList;
+
 public class Test {
     public static void main(String args[]) {
         Player player = new Player();
@@ -12,6 +15,6 @@ public class Test {
         
         player.playHand(communityCards);
         String handResult = player.playHand(communityCards);
-        System.out.println(findRankingFrequency);
+        System.out.println(player.findRankingFrequency());
     }
 }
