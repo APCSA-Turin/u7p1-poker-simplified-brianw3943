@@ -75,7 +75,10 @@ public class Player{
         return false;
     }
     private boolean fullHouse() {
-        if (two)
+        if (pair() && threeOfAKind()) {
+            return true;
+        }
+        return false;
     }
     private boolean fourOfAKind() {
         ArrayList<Integer> rankFrequency = findRankingFrequency();
@@ -87,22 +90,81 @@ public class Player{
         return false;
     }
     private boolean straightFlush() {
-
+        if (straight() && flush()) {
+            return true;
+        }
+        return false;
     }
     private boolean royalFlush() {
-
+        if (straightFlush() && allCards.get(allCards.size() - 1).getRank().equals("A")) {
+            return true;
+        }
+        return false;
     }
 
     public String playHand(ArrayList<Card> communityCards){      
+        allCards.clear();
+        //Fills allCards with communityCards and cards in hand
         for (int i = 0; i < 3; i++) {
             allCards.add(communityCards.get(i));
         }
         for (int i = 0; i < 2; i++) {
             allCards.add(hand.get(i));
         }
-        
-        
-        return "Nothing";
+        // Sorts the cards
+        sortAllCards();
+        // Checks for Royal Flush
+        if (royalFlush()) {
+            return "Royal Flush";
+        }
+        if (straightFlush()) {
+            return "Straight Flush";
+        }
+        // Checks for Four of a Kind
+        if (fourOfAKind()) {
+            return "Four of a Kind";
+        }
+        // Checks for Full House
+        if (fullHouse()) {
+            return "Full House";
+        }
+        // Checks for Flush
+        if (flush()) {
+            return "Flush";
+        }
+        // Checks for Straight
+        if (straight()) {
+            return "Straight";
+        }
+        // Checks for Three of a Kind
+        if (threeOfAKind()) {
+            return "Three of a Kind";
+        }
+        // Checks for Two Pair
+        if (twoPair()) {
+            return "Two Pair";
+        }
+        // Checks for A Pair
+        if (pair()) {
+            return "A Pair";
+        }
+        ArrayList<Card> playerHand = new ArrayList<>(hand);
+
+        // Find the highest card in the player's hand
+        String handHighestCard = hand.get(0).getRank();
+        int handHighestCardValue = Utility.getRankValue(handHighestCard);
+        int secondCardValue = Utility.getRankValue(hand.get(1).getRank());
+        if (secondCardValue > handHighestCardValue) {
+            handHighestCard = hand.get(1).getRank();
+            handHighestCardValue = secondCardValue;
+        }
+        for (Card card : communityCards) {
+            int communityCardValue = Utility.getRankValue(card.getRank());
+            if (communityCardValue >= handHighestCardValue) {
+                return "Nothing"; // Highest card is in community cards
+            }
+        }
+        return "High Card"; // Highest card is not in community cards
     }
 
     public void sortAllCards(){
